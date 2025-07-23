@@ -1,0 +1,438 @@
+Core JAVA
+
+Data Types:
+primitive data types: int,char,short,long,byte,double,float,boolean
+
+String is a Class
+
+String str=" ";
+
+String str1=new String();
+
+int emp_id=101;
+char emp_name="S" (allows only one character so use string)
+String emp_name="Chandu" 
+float salary=10.08;
+double sal= 2383994.098740;
+boolean is_emp=true / false;
+
+methods in java:
+  assess modifiers->  public,protected,default,private
+  return type->
+  method_name
+
+  example  ->  public double get_salary(double salary,double bonus){
+                    double tot_sal=salary+bonus;
+                    int year_of_exp=5;
+                    if(salary>=50000 && year_of_exp==5){
+                        System.out.println(tot_sal);
+                    }
+                    else{
+                        System.out.println(salary);
+                    }
+                    return tot_sal;
+
+main (ctrl+space)
+
+public static void main(String[],args){
+    Employee emp=new Employee();
+    emp.get_salary(20000, 2000)
+ }
+}
+package com.basicjava;
+ 
+public class Employee {
+	// declare the variables
+	// Data types
+	// Primitive data types (int,char,short,long,byte,double,float,boolean)
+	// String is a class 
+//	String str = "";
+//	 String str1 = new String();
+	// Variable is a container
+	int emp_id = 101;
+	String emp_name = "Preetti";
+	boolean is_employee =true;
+	double salary1 = 2999595.788;
+     // create the method
+	// access modifiers (public,protected,default,private)
+	public double get_salary(double salary,double bonus) {
+		 double total_salary = salary + bonus;
+		 int year_of_exp = 5;
+		 double half_bonus = salary + bonus /2;
+		if(salary >= 50000 || year_of_exp==5) {
+			System.out.println(total_salary);
+		}
+		else if(salary > 20000 && year_of_exp == 5) 
+		{
+			System.out.println(salary+half_bonus);
+		}
+		else { System.out.println(salary);}
+		return salary;
+	}
+	public static void main(String[] args) {
+		Employee emp = new Employee();
+		emp.get_salary(20000, 2000);
+	}
+}
+problem:
+
+bank--> account -> conditions -> else if ladder
+                use all operators 
+                declare mutiple methods open account
+                                        withdraw & deposit.
+
+
+                
+
+LOOPS
+Entry contolled:
+ for -> use when you know about the num of iterations
+ while -> use when you dont know about the num of iterations
+Exit controlled loop
+ do while - > it goes into loop atleast one time without checking the condition.
+
+ package com.basicjava;
+ 
+import java.util.Scanner;
+ 
+public class BankWithdrawal{
+
+	public static void main(String[] args) {
+
+		double balance = 10000.00;
+
+		Scanner scanner = new Scanner(System.in);
+
+		// withdraw the amount
+
+		while(true) {
+
+			System.out.println("Current Balance" +balance);
+
+			System.out.println("Enter amount to withdraw");
+
+			double withdrawAmount = scanner.nextDouble();
+
+			if (withdrawAmount ==0) {
+
+				System.out.println("Transaction ended");
+
+				break;
+
+			}
+
+			if (withdrawAmount > balance) {
+
+				System.out.println("Insufficient Balance");
+
+			}
+
+			else if(withdrawAmount <= 0) {
+
+				System.out.println("Invalid Amount");
+
+			}
+
+			else {
+
+				balance  -= withdrawAmount;
+
+				System.out.println("withdrwal successful" + withdrawAmount);
+
+			}
+
+		}
+
+		scanner.close();
+
+	}
+
+}
+
+
+
+SWITCH vs Else-If Ladder:
+| Feature           | `switch`                                  | `else-if`                                  |
+| ----------------- | ----------------------------------------- | ------------------------------------------ |
+| Syntax style      | Cleaner for multiple **fixed values**     | Flexible for **ranges, conditions**        |
+| Supported types   | `int`, `char`, `String`, enum (Java 7+)   | All types + complex logic                  |
+| Readability       | Better when checking one variable's value | Better for logical comparisons             |
+| Fall-through risk | Possible (needs `break`)                  | No fall-through                            |
+| Use-case          | Menu selections, status codes, etc.       | Age checks, amount ranges, combined checks |
+
+
+use else-if when we have more conditions or comparisons 
+
+
+
+package com.basicjava;
+ 
+import java.util.Scanner;
+ 
+public class BankingSystem {
+ 
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        double balance = 1000.00; // initial balance
+
+        boolean running = true;
+ 
+        while (running) {
+
+            System.out.println("\n=== Banking Menu ===");
+
+            System.out.println("1. Check Balance");
+
+            System.out.println("2. Deposit Money");
+
+            System.out.println("3. Withdraw Money");
+
+            System.out.println("4. Exit");
+
+            System.out.print("Choose an option: ");
+ 
+            int choice = scanner.nextInt();
+ 
+            switch (choice) {
+
+                case 1:
+
+                    System.out.println("Your current balance is ₹" + balance);
+
+                    break;
+ 
+                case 2:
+
+                    System.out.print("Enter amount to deposit: ₹");
+
+                    double deposit = scanner.nextDouble();
+
+                    if (deposit > 0) {
+
+                        balance += deposit;
+
+                        System.out.println("₹" + deposit + " deposited successfully.");
+
+                    } else {
+
+                        System.out.println("Invalid deposit amount.");
+
+                    }
+
+                    break;
+ 
+                case 3:
+
+                    System.out.print("Enter amount to withdraw: ₹");
+
+                    double withdraw = scanner.nextDouble();
+
+                    if (withdraw > 0 && withdraw <= balance) {
+
+                        balance -= withdraw;
+
+                        System.out.println("₹" + withdraw + " withdrawn successfully.");
+
+                    } else {
+
+                        System.out.println("Insufficient balance or invalid amount.");
+
+                    }
+
+                    break;
+ 
+                case 4:
+
+                    System.out.println("Exiting... Thank you for banking with us!");
+
+                    running = false;
+
+                    break;
+ 
+                default:
+
+                    System.out.println("Invalid option. Please try again.");
+
+            }
+
+        }
+ 
+        scanner.close();
+
+    }
+
+}
+
+ 
+
+Object Oriented Programming (OOP)
+Class -> A blueprint for creating objects that defines properties and behaviors.
+Object -> An instance of a class that holds actual values and performs actions.
+Inheritance -> Acquiring properties and behaviors from a parent class to promote code reuse.
+        reducing the lines of code
+        Code reusability
+
+Encapsulation -> Wrapping data and methods together and restricting direct access using access modifiers.
+Abstraction ->  Hiding internal implementation details and showing only essential features.
+package com.basicjava;
+
+abstract class Employee1{
+
+	abstract public double getSalary();
+
+	public void showCompaniysContactDetails() {
+
+		String  comp_name= "Polymath";
+
+		String mobile_no = "9789999456";
+
+		System.out.println("name" +comp_name+ "mobile" +mobile_no);
+
+	}
+
+}
+
+public class AbstractionExample  extends Employee1{
+
+	public static void main(String[] args) {
+
+		AbstractionExample emp = new AbstractionExample();
+
+		 emp.showCompaniysContactDetails();
+
+		 emp.getSalary();
+
+	}
+ 
+	@Override
+
+	public double getSalary() {
+
+		double salary = 20000;
+
+		System.out.println("show salary" +salary);
+
+		return salary;
+
+	}
+ 
+}
+
+ 
+Polymorphism -> The ability of one method or object to behave differently in different contexts.
+Interface -> A contract that defines method signatures without implementation, used for abstraction and multiple inheritance.
+interface example:
+class Parent1{
+
+	public void showAccountDetail() {
+
+		System.out.println("username and password");
+
+	}
+
+}
+ 
+package com.basicjava;
+ 
+class Parent1{
+
+	public void showAccountDetail() {
+
+		System.out.println("username and password");
+
+	}
+
+}
+
+interface Parent2{
+
+	public void showAccountBalance() ;
+
+}
+
+public class MultipleInheritance extends Parent1 implements Parent2 {
+ 
+	@Override
+
+	public void showAccountBalance() {
+
+		System.out.println("Total_balance");
+
+	}
+ 
+}
+
+ //wrong code --> not possible in java 
+ //with the help of interface we can resolve the issue of multiple inheritance...
+package com.basicjava;
+ 
+interface Parent1{
+
+	public void showAccountDetail() ;
+
+}
+
+interface Parent2{
+
+	public void showAccountBalance() ;
+
+}
+
+public class MultipleInheritance  implements Parent1,Parent2 { // multiple inheritance is not possible in java
+ 
+	@Override
+
+	public void showAccountBalance() {
+
+		System.out.println("Total_balance");
+
+	}
+ 
+	@Override
+
+	public void showAccountDetail() {
+
+		System.out.println("username and password");
+
+	}
+
+}
+
+ 
+ Differences between interface and abstraction???
+ | Feature                   | **Interface**                                                  | **Abstract Class**                                      |
+| ------------------------- | -------------------------------------------------------------- | ------------------------------------------------------- |
+| **Purpose**               | Define a **contract** (what to do)                             | Provide a **base for subclasses** with partial behavior |
+| **Keyword**               | `interface`                                                    | `abstract class`                                        |
+| **Method Implementation** | Only **abstract methods** (Java 8+ allows `default`, `static`) | Can have **both abstract and concrete methods**         |
+| **Variables**             | Always `public static final` (constants)                       | Can have instance variables with any access modifier    |
+| **Constructor**           | ❌ No constructors                                              | ✅ Can have constructors                                 |
+| **Multiple Inheritance**  | ✅ Supports multiple interfaces                                 | ❌ Only single class inheritance                         |
+| **Use Case**              | Define behavior across **unrelated classes** (e.g., `Flyable`) | Define a **common base** for **related classes**        |
+| **Access Modifiers**      | Methods are `public` by default                                | Can use `private`, `protected`, `public`                |
+| **Inheritance**           | Use `implements`                                               | Use `extends`                                           |
+
+
+Interface:
+    interface Payable {
+        void pay();
+    }
+    class Employee implements Payable {
+        public void pay() {
+            System.out.println("Paying salary...");
+        }
+    }
+Abstraction:
+    abstract class Vehicle {
+    abstract void start();
+    void stop() {
+        System.out.println("Vehicle stopped.");
+    }
+}
+class Car extends Vehicle {
+    void start() {
+        System.out.println("Car started.");
+    }
+}
