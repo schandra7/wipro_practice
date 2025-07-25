@@ -322,6 +322,13 @@ public class AbstractionExample  extends Employee1{
 
  
 Polymorphism -> The ability of one method or object to behave differently in different contexts.
+	poly - many
+	morph - forms
+Compile time/static method dispatcher / method overloading -> method name can be same with different parameters in the same class
+run time / dynamic method dispatcher / Method overriding -> method name can be same with same parameters in the different class
+
+
+
 Interface -> A contract that defines method signatures without implementation, used for abstraction and multiple inheritance.
 interface example:
 class Parent1{
