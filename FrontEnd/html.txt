@@ -1,0 +1,74 @@
+These tags help structure the document more meaningfully:
+<article>: Represents a self-contained piece of content, like a blog post or news article.
+<section>: Defines a thematic grouping of content, typically with a heading.
+<main>: Represents the dominant content of the <body> of a document.
+<aside>: Specifies content that is only slightly related to the surrounding content, often presented as a sidebar.
+<header>: Defines the introductory content or a set of navigational links for a document or section.
+<footer>: Specifies a footer for a document or section, often containing copyright or author information.
+<nav>: Declares a section of the document intended for navigation links.
+<figure>: Represents self-contained content, often with a caption, such as an image or diagram.
+<figcaption>: Defines a caption for a <figure> element.
+<mark>: Highlights or marks a run of text for reference or relevance.
+<time>: Represents a specific point in time or a time range.
+<details>: Creates a disclosure widget from which the user can obtain additional information or controls on demand.
+<summary>: Provides a summary or caption for the content within a <details> element.
+New Multimedia Elements:
+These tags provide native support for embedding media:
+<audio>: Embeds audio content.
+**`
+ demo.html
+ <!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            function sample(){
+                var a = document.getElementById("t1").value;
+                alert("welcome to the script" +a);
+            }
+        </script>
+    </head>
+        <body>
+           Enter Your Name <input type="text" id="t1"> <br>
+           <p id="p1"></p>
+           <input type="button" id="b1" value="submit" onclick="sample()">
+ 
+        </body>
+</html>
+ 
+ <script>
+            function sample(){
+                var a = document.getElementById("t1").value;
+                //alert("welcome to the script" +a);
+                document.getElementById("p1").innerHTML = a+ "welcome to script"
+            }
+        </script>
+ add.html
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="add.js">
+           
+        </script>
+    </head>
+        <body>
+           Enter Fisrt Number <input type="text" id="t1"> <br><br>
+           <br>
+           Enter Second Number <input type="text" id="t2"> <br><br>
+           <p id="p1"></p>
+           <input type="button" id="b1" value="submit" onclick="addition()">
+ 
+        </body>
+</html>
+ 
+function addition(){
+    var a = document.getElementById("t1").value;
+    var b = document.getElementById("t2").value;
+ 
+     var c = parseInt(a);
+     var d = parseInt(b);
+ 
+      var e = c+d;
+      document.getElementById("p1").innerHTML = "The addition is  " +e;
+}
+ 
+ 

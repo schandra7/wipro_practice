@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocation Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        h1 {
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 8px 14px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        button:hover:not(:disabled) {
+            background: #0056b3;
+        }
+        #status {
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .data-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .coords {
+            flex: 1;
+            min-width: 250px;
+        }
+        .coords p {
+            margin: 5px 0;
+        }
+        .coords span {
+            font-weight: bold;
+        }
+        .map-preview {
+            flex: 1;
+            min-width: 300px;
+        }
+        iframe {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            height: 250px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .notes {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #555;
+        }
+        .notes ul {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Geolocation Demo</h1>
+    <div class="subtitle">Get the device's latitude & longitude, accuracy and show it on a map. Works with <b>Get Current Location</b> or continuous tracking.</div>
+
+    <button onclick="getLocation()">Get Current Location</button>
+    <button onclick="startTracking()">Start Tracking</button>
+    <button id="stopBtn" onclick="stopTracking()" disabled>Stop Tracking</button>
+    <button onclick="copyCoords()">Copy Coordinates</button>
+
+    <div id="status">Status: Idle</div>
+
+    <div class="data-container">
+        <div class="coords">
+            <p>Latitude: <span id="lat">-</span></p>
+            <p>Longitude: <span id="lon">-</span></p>
+            <p>Accuracy (meters): <span id="acc">-</span></p>
+            <p>Timestamp: <span id="ts">-</span></p>
+            <p><a id="maps-link" href="#" target="_blank">Open in Google Maps</a></p>
+        </div>
+        <div class="map-preview">
+            <strong>Map preview</strong>
+            <iframe id="map"></iframe>
+        </div>
+    </div>
+
+    <div class="notes">
+        <strong>Notes:</strong>
+        <ul>
+            <li>Geolocation requires user permission. On many browsers it only works over <code>https</code> or on <code>localhost</code>.</li>
+            <li>If permission is denied, you'll see an error message below.</li>
+        </ul>
+        <p id="error" style="color:red;"></p>
+    </div>
+
+    <script>
+        let watchId = null;
+
+        function getLocation() {
+            if (!navigator.geolocation) {
+                document.getElementById("error").innerText = "Geolocation is not supported by your browser.";
+                return;
+            }
+            document.getElementById("status").innerText = "Status: Getting location...";
+            navigator.geolocation.getCurrentPosition(success, error, { enableHighAccuracy: true });
+        }
+
+        function startTracking() {
+            if (!navigator.geolocation) {
+                document.getElementById("error").innerText = "Geolocation is not supported by your browser.";
+                return;
+            }
+            document.getElementById("status").innerText = "Status: Tracking...";
+            document.getElementById("stopBtn").disabled = false;
+            watchId = navigator.geolocation.watchPosition(success, error, { enableHighAccuracy: true });
+        }
+
+        function stopTracking() {
+            if (watchId !== null) {
+                navigator.geolocation.clearWatch(watchId);
+                document.getElementById("status").innerText = "Status: Tracking stopped";
+                document.getElementById("stopBtn").disabled = true;
+            }
+        }
+
+        function copyCoords() {
+            let lat = document.getElementById("lat").innerText;
+            let lon = document.getElementById("lon").innerText;
+            if (lat !== "-" && lon !== "-") {
+                navigator.clipboard.writeText(${lat}, ${lon});
+                alert("Coordinates copied to clipboard!");
+            } else {
+                alert("No coordinates to copy!");
+            }
+        }
+
+        function success(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            var acc = position.coords.accuracy;
+            var ts = new Date(position.timestamp).toLocaleString();
+
+            document.getElementById("lat").innerText = lat;
+            document.getElementById("lon").innerText = lon;
+            document.getElementById("acc").innerText = acc;
+            document.getElementById("ts").innerText = ts;
+
+            document.getElementById("maps-link").href = https://www.google.com/maps?q=${lat},${lon};
+            document.getElementById("map").src = https://www.google.com/maps?q=${lat},${lon}&z=15&output=embed;
+
+            document.getElementById("status").innerText = "Status: Location obtained";
+            document.getElementById("error").innerText = "";
+        }
+
+        function error(err) {
+            document.getElementById("error").innerText = "Error: " + err.message;
+            document.getElementById("status").innerText = "Status: Error";
+        }
+    </script>
+</body>
+</html>

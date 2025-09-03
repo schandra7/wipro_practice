@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Basic Calculator</title>
+</head>
+<body>
+  <h2>Basic Calculator</h2>
+
+  <form onsubmit="calculate(); return false;">
+    <label>Number 1: </label>
+    <input type="number" id="num1"><br><br>
+
+    <label>Number 2: </label>
+    <input type="number" id="num2"><br><br>
+
+    <label>Operation: </label>
+    <select id="operation">
+      <option value="add">Add</option>
+      <option value="sub">Subtract</option>
+      <option value="mul">Multiply</option>
+      <option value="div">Divide</option>
+    </select><br><br>
+
+    <input type="submit" value="Calculate">
+  </form>
+
+  <p>Total Result: <span id="result"></span></p>
+
+  <script>
+    function calculate() {
+      const n1 = parseFloat(document.getElementById("num1").value);
+      const n2 = parseFloat(document.getElementById("num2").value);
+      const op = document.getElementById("operation").value;
+      let res;
+
+      if (op === "add") res = n1 + n2;
+      else if (op === "sub") res = n1 - n2;
+      else if (op === "mul") res = n1 * n2;
+      else if (op === "div") res = n2 !== 0 ? n1 / n2 : "Error (divide by 0)";
+
+      document.getElementById("result").textContent = res;
+    }
+  </script>
+</body>
+</html>

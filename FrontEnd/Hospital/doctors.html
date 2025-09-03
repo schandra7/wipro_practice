@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Doctors - Hospital Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="register.html">Register</a>
+    <a href="login.html">Login</a>
+    <a href="patients.html">Patients</a>
+    <a href="doctors.html">Doctors</a>
+  </nav>
+
+  <h2>Doctors</h2>
+  <form id="doctorForm">
+    <label>Name:</label>
+    <input type="text" id="doctorName" required>
+    <label>Speciality:</label>
+    <input type="text" id="doctorSpeciality" required>
+    <button type="submit">Add Doctor</button>
+  </form>
+
+  <ul id="doctorList"></ul>
+
+  <script src="script.js"></script>
+</body>
+</html>

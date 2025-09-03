@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hospital Appointment Booking</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+ 
+<!-- Carousel Section -->
+<div id="hospitalCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+<div class="carousel-inner">
+<div class="carousel-item active">
+<img src="data:image/webp;base64,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" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="Hospital 1">
+<div class="carousel-caption d-none d-md-block">
+<h5>Welcome to Our Hospital</h5>
+<p>Your health is our priority</p>
+</div>
+</div>
+<div class="carousel-item">
+<img src="https://th.bing.com/th/id/OIP.MpRPQImmt6ZXzjywdYEP8QHaGS?w=199&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3">
+<div class="carousel-caption d-none d-md-block">
+<h5>Expert Doctors</h5>
+<p>Specialists for all your needs</p>
+</div>
+</div>
+<div class="carousel-item">
+<img src="https://th.bing.com/th/id/OIP.qpYSLQ7qSsHL6tM-pzU72AHaEJ?w=300&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="Hospital 3">
+<div class="carousel-caption d-none d-md-block">
+<h5>Book Your Appointment</h5>
+<p>Easy and fast online booking</p>
+</div>
+</div>
+</div>
+<button class="carousel-control-prev" type="button" data-bs-target="#hospitalCarousel" data-bs-slide="prev">
+<span class="carousel-control-prev-icon"></span>
+</button>
+<button class="carousel-control-next" type="button" data-bs-target="#hospitalCarousel" data-bs-slide="next">
+<span class="carousel-control-next-icon"></span>
+</button>
+</div>
+ 
+<!-- Appointment Form -->
+<div class="container">
+<div class="card p-4 shadow-sm">
+<h3 class="text-center mb-4">Book an Appointment</h3>
+<form id="appointmentForm">
+<div class="mb-3">
+<label class="form-label">Patient Name</label>
+<input type="text" class="form-control" id="patientName" placeholder="Enter your name">
+</div>
+<div class="mb-3">
+<label class="form-label">Age</label>
+<input type="number" class="form-control" id="patientAge" placeholder="Enter your age">
+</div>
+<div class="mb-3">
+<label class="form-label">Contact Number</label>
+<input type="text" class="form-control" id="patientContact" placeholder="Enter contact number">
+</div>
+<div class="mb-3">
+<label class="form-label">Specialist</label>
+<select class="form-select" id="specialist" onchange="loadDoctors()">
+<option value="">Select Specialist</option>
+<option value="Cardiologist">Cardiologist</option>
+<option value="Dentist">Dentist</option>
+<option value="Neurologist">Neurologist</option>
+</select>
+</div>
+<div class="mb-3">
+<label class="form-label">Doctor</label>
+<select class="form-select" id="doctor">
+<option value="">Select Doctor</option>
+</select>
+</div>
+<div class="mb-3">
+<label class="form-label">Appointment Date</label>
+<input type="date" class="form-control" id="appointmentDate">
+</div>
+<button type="button" class="btn btn-success w-100" onclick="bookAppointment()">Book Appointment</button>
+</form>
+</div>
+</div>
+ 
+<!-- Records Table -->
+<div class="container mt-5">
+<h3 class="text-center">Hospital Records</h3>
+<table class="table table-striped table-bordered mt-3">
+<thead class="table-dark">
+<tr>
+<th>Patient Name</th>
+<th>Age</th>
+<th>Contact</th>
+<th>Specialist</th>
+<th>Doctor</th>
+<th>Date</th>
+</tr>
+</thead>
+<tbody id="recordsTable"></tbody>
+</table>
+</div>
+ 
+<script>
+
+    const doctorsData = {
+
+        "Cardiologist": ["Dr. Rajeev Sharma", "Dr. Neha Kapoor", "Dr. Amit Verma"],
+
+        "Dentist": ["Dr. Priya Singh", "Dr. Rohit Gupta", "Dr. Kavita Mehta"],
+
+        "Neurologist": ["Dr. Anil Kumar", "Dr. Sunita Joshi", "Dr. Sameer Malhotra"]
+
+    };
+ 
+    function loadDoctors() {
+
+        let specialist = document.getElementById("specialist").value;
+
+        let doctorSelect = document.getElementById("doctor");
+
+        doctorSelect.innerHTML = "<option value=''>Select Doctor</option>";
+ 
+        if (specialist && doctorsData[specialist]) {
+
+            doctorsData[specialist].forEach(doc => {
+
+                let option = document.createElement("option");
+
+                option.value = doc;
+
+                option.textContent = doc;
+
+                doctorSelect.appendChild(option);
+
+            });
+
+        }
+
+    }
+ 
+    function bookAppointment() {
+
+        let name = document.getElementById("patientName").value;
+
+        let age = document.getElementById("patientAge").value;
+
+        let contact = document.getElementById("patientContact").value;
+
+        let specialist = document.getElementById("specialist").value;
+
+        let doctor = document.getElementById("doctor").value;
+
+        let date = document.getElementById("appointmentDate").value;
+ 
+        if (!name || !age || !contact || !specialist || !doctor || !date) {
+
+            alert("Please fill in all details!");
+
+            return;
+
+        }
+ 
+        let tableBody = document.getElementById("recordsTable");
+
+        let newRow = document.createElement("tr");
+ 
+        newRow.innerHTML = `
+<td>${name}</td>
+<td>${age}</td>
+<td>${contact}</td>
+<td>${specialist}</td>
+<td>${doctor}</td>
+<td>${date}</td>
+
+        `;
+ 
+        tableBody.appendChild(newRow);
+ 
+        alert("Appointment booked successfully!");
+
+        document.getElementById("appointmentForm").reset();
+
+    }
+</script>
+ 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+ 

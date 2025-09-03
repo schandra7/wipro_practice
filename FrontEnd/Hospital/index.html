@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; }
+    .card { margin-top: 20px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1 class="text-center my-4">Hospital Management System</h1>
+  <div id="auth-section" class="card p-4">
+    <h3 id="auth-title">Patient Login</h3>
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input type="text" id="name" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" id="email" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input type="password" id="password" class="form-control">
+    </div>
+    <button id="login-btn" class="btn btn-primary">Login</button>
+    <button id="register-btn" class="btn btn-secondary">Register</button>
+  </div>
+
+  <div id="dashboard" style="display:none;">
+    <h3>Welcome, <span id="user-name"></span></h3>
+    <h4>Doctors</h4>
+    <div id="doctor-list" class="row"></div>
+
+    <h4 class="mt-4">Book Appointment</h4>
+    <div class="card p-3 mb-4">
+      <div class="mb-3">
+        <label class="form-label">Select Doctor</label>
+        <select id="doctor-select" class="form-select"></select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Date</label>
+        <input type="date" id="appointment-date" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Time Slot</label>
+        <select id="time-slot" class="form-select"></select>
+      </div>
+      <button id="confirm-appointment" class="btn btn-success">Confirm Appointment</button>
+    </div>
+
+    <h4>Your Appointments</h4>
+    <ul id="appointment-list" class="list-group"></ul>
+  </div>
+</div>
+
+<script>
+  const doctors = [
+    { id: 1, name: "Dr. Ananya Rao", specialty: "Cardiology", slots: ["09:00","09:30","10:00"] },
+    { id: 2, name: "Dr. Mehta", specialty: "Orthopedics", slots: ["11:00","11:30","12:00"] }
+  ];
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+
+  const authSection = document.getElementById('auth-section');
+  const dashboard = document.getElementById('dashboard');
+  const userNameSpan = document.getElementById('user-name');
+  const doctorList = document.getElementById('doctor-list');
+  const appointmentList = document.getElementById('appointment-list');
+  const doctorSelect = document.getElementById('doctor-select');
+  const timeSlotSelect = document.getElementById('time-slot');
+  let currentUser = null;
+
+  document.getElementById('register-btn').onclick = () => {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    if (!name || !email || !password) return alert('Fill all fields');
+    if (users.find(u => u.email === email)) return alert('User exists');
+    users.push({ name, email, password });
+    localStorage.setItem('users', JSON.stringify(users));
+    alert('Registered successfully');
+  };
+
+  document.getElementById('login-btn').onclick = () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const user = users.find(u => u.email === email && u.password === password);
+    if (!user) return alert('Invalid credentials');
+    currentUser = user;
+    authSection.style.display = 'none';
+    dashboard.style.display = 'block';
+    userNameSpan.textContent = currentUser.name;
+    renderDoctors();
+    renderDoctorSelect();
+    renderAppointments();
+  };
+
+  function renderDoctors() {
+    doctorList.innerHTML = '';
+    doctors.forEach(doc => {
+      const col = document.createElement('div');
+      col.className = 'col-md-4';
+      col.innerHTML = `
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">${doc.name}</h5>
+            <p class="card-text">${doc.specialty}</p>
+          </div>
+        </div>`;
+      doctorList.appendChild(col);
+    });
+  }
+
+  function renderDoctorSelect() {
+    doctorSelect.innerHTML = '';
+    doctors.forEach(doc => {
+      const option = document.createElement('option');
+      option.value = doc.id;
+      option.textContent = `${doc.name} - ${doc.specialty}`;
+      doctorSelect.appendChild(option);
+    });
+    updateTimeSlots();
+  }
+
+  function updateTimeSlots() {
+    const selectedDoctorId = parseInt(doctorSelect.value);
+    const doctor = doctors.find(d => d.id === selectedDoctorId);
+    timeSlotSelect.innerHTML = '';
+    doctor.slots.forEach(slot => {
+      const option = document.createElement('option');
+      option.value = slot;
+      option.textContent = slot;
+      timeSlotSelect.appendChild(option);
+    });
+  }
+
+  doctorSelect.addEventListener('change', updateTimeSlots);
+
+  document.getElementById('confirm-appointment').onclick = () => {
+    const docId = parseInt(doctorSelect.value);
+    const doctor = doctors.find(d => d.id === docId);
+    const date = document.getElementById('appointment-date').value;
+    const time = timeSlotSelect.value;
+    if (!date || !time) return alert('Please select date and time');
+    if (appointments.find(a => a.doctorId === docId && a.date === date && a.time === time)) {
+      return alert('Slot already booked');
+    }
+    appointments.push({ doctorId: docId, doctorName: doctor.name, email: currentUser.email, date, time });
+    localStorage.setItem('appointments', JSON.stringify(appointments));
+    renderAppointments();
+    alert('Appointment booked successfully');
+  };
+
+  function renderAppointments() {
+    appointmentList.innerHTML = '';
+    appointments.filter(a => a.email === currentUser.email).forEach(a => {
+      const li = document.createElement('li');
+      li.className = 'list-group-item';
+      li.textContent = `${a.doctorName} on ${a.date} at ${a.time}`;
+      appointmentList.appendChild(li);
+    });
+  }
+</script>
+</body>
+</html>

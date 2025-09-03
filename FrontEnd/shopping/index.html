@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory & Order Tracking Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .low-stock {
+      background-color: #f8d7da !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">🏭 My Manufacturing Co.</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#inventory">Inventory</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#orders">Orders</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#reports">Reports</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Tab Content -->
+  <div class="tab-content container mt-4">
+    <!-- Home Page -->
+    <div class="tab-pane fade show active" id="home">
+      <h2>Welcome to Inventory & Order Tracking Dashboard</h2>
+      <p>Use the navigation above to manage inventory, track orders, and view reports.</p>
+    </div>
+
+    <!-- Inventory Page -->
+    <div class="tab-pane fade" id="inventory">
+      <h2>Inventory</h2>
+      <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addProductModal">+ Add Product</button>
+      <table class="table table-bordered" id="inventoryTable">
+        <thead class="table-dark">
+          <tr>
+            <th>Product ID</th>
+            <th>Name</th>
+            <th>Available Stock</th>
+            <th>Reorder Level</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- Orders Page -->
+    <div class="tab-pane fade" id="orders">
+      <h2>Orders</h2>
+      <table class="table table-bordered" id="ordersTable">
+        <thead class="table-dark">
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Order Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- Reports Page -->
+    <div class="tab-pane fade" id="reports">
+      <h2>Reports</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Total Products: <span id="totalProducts">0</span></li>
+        <li class="list-group-item">Low Stock Items: <span id="lowStockCount">0</span></li>
+        <li class="list-group-item">Pending Orders: <span id="pendingOrders">0</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Add Product Modal -->
+  <div class="modal fade" id="addProductModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" id="productId" class="form-control mb-2" placeholder="Product ID">
+          <input type="text" id="productName" class="form-control mb-2" placeholder="Product Name">
+          <input type="number" id="productStock" class="form-control mb-2" placeholder="Available Stock">
+          <input type="number" id="productReorder" class="form-control mb-2" placeholder="Reorder Level">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary" onclick="addProduct()">Add Product</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let inventory = [
+      { id: 'P001', name: 'Steel Rods', stock: 50, reorder: 20 },
+      { id: 'P002', name: 'Aluminium Sheets', stock: 10, reorder: 15 }
+    ];
+
+    let orders = [
+      { id: 'O101', customer: 'ABC Corp', product: 'Steel Rods', qty: 5, date: '2025-08-01', status: 'Pending' },
+      { id: 'O102', customer: 'XYZ Ltd', product: 'Aluminium Sheets', qty: 10, date: '2025-08-03', status: 'Shipped' }
+    ];
+
+    function renderInventory() {
+      let tbody = document.querySelector('#inventoryTable tbody');
+      tbody.innerHTML = '';
+      inventory.forEach(item => {
+        let row = `<tr class="${item.stock < item.reorder ? 'low-stock' : ''}">
+          <td>${item.id}</td>
+          <td>${item.name}</td>
+          <td>${item.stock}</td>
+          <td>${item.reorder}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    function renderOrders() {
+      let tbody = document.querySelector('#ordersTable tbody');
+      tbody.innerHTML = '';
+      orders.forEach((order, index) => {
+        let row = `<tr>
+          <td>${order.id}</td>
+          <td>${order.customer}</td>
+          <td>${order.product}</td>
+          <td>${order.qty}</td>
+          <td>${order.date}</td>
+          <td>${order.status}</td>
+          <td>${order.status === 'Pending' ? `<button class="btn btn-success btn-sm" onclick="updateOrder(${index})">Mark Shipped</button>` : ''}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    function renderReports() {
+      document.getElementById('totalProducts').innerText = inventory.length;
+      document.getElementById('lowStockCount').innerText = inventory.filter(p => p.stock < p.reorder).length;
+      document.getElementById('pendingOrders').innerText = orders.filter(o => o.status === 'Pending').length;
+    }
+
+    function addProduct() {
+      let id = document.getElementById('productId').value;
+      let name = document.getElementById('productName').value;
+      let stock = parseInt(document.getElementById('productStock').value);
+      let reorder = parseInt(document.getElementById('productReorder').value);
+      inventory.push({ id, name, stock, reorder });
+      renderInventory();
+      renderReports();
+      document.querySelector('#addProductModal .btn-close').click();
+    }
+
+    function updateOrder(index) {
+      orders[index].status = 'Shipped';
+      renderOrders();
+      renderReports();
+    }
+
+    // Initial Render
+    renderInventory();
+    renderOrders();
+    renderReports();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

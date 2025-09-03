@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital Management Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+    <h2 class="text-center mb-4">Hospital Management Dashboard</h2>
+
+    <!-- Nav Tabs -->
+    <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="patients-tab" data-bs-toggle="tab" data-bs-target="#patients" type="button" role="tab">Patients</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="doctors-tab" data-bs-toggle="tab" data-bs-target="#doctors" type="button" role="tab">Doctors</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="appointments-tab" data-bs-toggle="tab" data-bs-target="#appointments" type="button" role="tab">Appointments</button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content mt-3">
+
+        <!-- Patients Tab -->
+        <div class="tab-pane fade show active" id="patients" role="tabpanel">
+            <div class="card">
+                <div class="card-header">Add Patient</div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <input type="text" id="patientName" class="form-control" placeholder="Full Name">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" id="patientAge" class="form-control" placeholder="Age">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" id="patientContact" class="form-control" placeholder="Contact Number">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary mt-2" onclick="addPatient()">Add Patient</button>
+                </div>
+            </div>
+
+            <table class="table table-striped mt-3">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody id="patientsTable"></tbody>
+            </table>
+        </div>
+
+        <!-- Doctors Tab -->
+        <div class="tab-pane fade" id="doctors" role="tabpanel">
+            <div class="card">
+                <div class="card-header">Add Doctor</div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <input type="text" id="doctorName" class="form-control" placeholder="Doctor Name">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" id="specialization" class="form-control" placeholder="Specialization">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" id="doctorContact" class="form-control" placeholder="Contact Number">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary mt-2" onclick="addDoctor()">Add Doctor</button>
+                </div>
+            </div>
+
+            <table class="table table-striped mt-3">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Specialization</th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody id="doctorsTable"></tbody>
+            </table>
+        </div>
+
+        <!-- Appointments Tab -->
+        <div class="tab-pane fade" id="appointments" role="tabpanel">
+            <div class="card">
+                <div class="card-header">Book Appointment</div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        <div class="col-md-3">
+                            <select id="appointmentPatient" class="form-select">
+                                <option value="">Select Patient</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="appointmentDoctor" class="form-select">
+                                <option value="">Select Doctor</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="date" id="appointmentDate" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="time" id="appointmentTime" class="form-control">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary mt-2" onclick="addAppointment()">Book Appointment</button>
+                </div>
+            </div>
+
+            <table class="table table-striped mt-3">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Patient</th>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody id="appointmentsTable"></tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    let patients = [];
+    let doctors = [];
+    let appointments = [];
+
+    function addPatient() {
+        const name = document.getElementById("patientName").value;
+        const age = document.getElementById("patientAge").value;
+        const contact = document.getElementById("patientContact").value;
+
+        if (!name || !age || !contact) {
+            alert("Please fill all patient details!");
+            return;
+        }
+
+        patients.push({ name, age, contact });
+        updatePatientsTable();
+        updatePatientDropdown();
+        document.getElementById("patientName").value = "";
+        document.getElementById("patientAge").value = "";
+        document.getElementById("patientContact").value = "";
+    }
+
+    function updatePatientsTable() {
+        const table = document.getElementById("patientsTable");
+        table.innerHTML = "";
+        patients.forEach(p => {
+            table.innerHTML += `<tr><td>${p.name}</td><td>${p.age}</td><td>${p.contact}</td></tr>`;
+        });
+    }
+
+    function updatePatientDropdown() {
+        const dropdown = document.getElementById("appointmentPatient");
+        dropdown.innerHTML = `<option value="">Select Patient</option>`;
+        patients.forEach(p => {
+            dropdown.innerHTML += `<option value="${p.name}">${p.name}</option>`;
+        });
+    }
+
+    function addDoctor() {
+        const name = document.getElementById("doctorName").value;
+        const specialization = document.getElementById("specialization").value;
+        const contact = document.getElementById("doctorContact").value;
+
+        if (!name || !specialization || !contact) {
+            alert("Please fill all doctor details!");
+            return;
+        }
+
+        doctors.push({ name, specialization, contact });
+        updateDoctorsTable();
+        updateDoctorDropdown();
+        document.getElementById("doctorName").value = "";
+        document.getElementById("specialization").value = "";
+        document.getElementById("doctorContact").value = "";
+    }
+
+    function updateDoctorsTable() {
+        const table = document.getElementById("doctorsTable");
+        table.innerHTML = "";
+        doctors.forEach(d => {
+            table.innerHTML += `<tr><td>${d.name}</td><td>${d.specialization}</td><td>${d.contact}</td></tr>`;
+        });
+    }
+
+    function updateDoctorDropdown() {
+        const dropdown = document.getElementById("appointmentDoctor");
+        dropdown.innerHTML = `<option value="">Select Doctor</option>`;
+        doctors.forEach(d => {
+            dropdown.innerHTML += `<option value="${d.name}">${d.name}</option>`;
+        });
+    }
+
+    function addAppointment() {
+        const patient = document.getElementById("appointmentPatient").value;
+        const doctor = document.getElementById("appointmentDoctor").value;
+        const date = document.getElementById("appointmentDate").value;
+        const time = document.getElementById("appointmentTime").value;
+
+        if (!patient || !doctor || !date || !time) {
+            alert("Please fill all appointment details!");
+            return;
+        }
+
+        appointments.push({ patient, doctor, date, time });
+        updateAppointmentsTable();
+
+        document.getElementById("appointmentPatient").value = "";
+        document.getElementById("appointmentDoctor").value = "";
+        document.getElementById("appointmentDate").value = "";
+        document.getElementById("appointmentTime").value = "";
+    }
+
+    function updateAppointmentsTable() {
+        const table = document.getElementById("appointmentsTable");
+        table.innerHTML = "";
+        appointments.forEach(a => {
+            table.innerHTML += `<tr><td>${a.patient}</td><td>${a.doctor}</td><td>${a.date}</td><td>${a.time}</td></tr>`;
+        });
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

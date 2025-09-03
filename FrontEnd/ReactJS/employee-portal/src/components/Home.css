@@ -1,0 +1,62 @@
+/* Home Dashboard Styles */
+
+.container {
+  max-width: 1200px;
+}
+
+/* Dashboard Heading */
+h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Card Styling */
+.dashboard-card {
+  border-radius: 12px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  text-align: center;
+  padding: 25px 15px;
+}
+
+.dashboard-card .card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-card h5 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.dashboard-card h2 {
+  font-size: 40px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Hover Effect */
+.dashboard-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25) !important;
+  opacity: 0.95;
+}
+
+/* Add slight animation on load */
+.dashboard-card {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
